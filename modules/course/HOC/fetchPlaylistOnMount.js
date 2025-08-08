@@ -6,19 +6,22 @@ const withFetchPlaylistRequest = connect(
   null,
   (dispatch, { playlistId }) => {
     if (!playlistId) {
-      throw Error('Missing playlist id in props')
+      return { missingPlaylistId: true };
     }
     return {
       fetchPlaylistRequest: () => {
         dispatch(fetchPlaylistRequest({playlistId}))
       },
+      missingPlaylistId: false
     }
   },
 )
 
 const fetchPlaylistOnMount = lifecycle({
   componentDidMount() {
-    this.props.fetchPlaylistRequest()
+    if (!this.props.missingPlaylistId && this.props.fetchPlaylistRequest) {
+      this.props.fetchPlaylistRequest()
+    }
   },
 })
 

@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout/Layout";
 import type { Metadata } from "next";
+import StoreProvider from "@/modules/course/storeProvider";
 
 export const metadata: Metadata = {
   title: "SiteOne interview app",
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <Layout>{children}</Layout>
+        <StoreProvider>
+          <Layout>{children}</Layout>
+        </StoreProvider>
       </body>
     </html>
   );

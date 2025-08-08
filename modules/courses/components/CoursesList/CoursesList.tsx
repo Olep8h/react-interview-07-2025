@@ -1,11 +1,19 @@
+'use client';
+
+import { useSelector } from "react-redux";
 import CoursesListItem from "./CoursesListItem";
 
+interface CoursesState {
+  courses: string[];
+}
+
 const CoursesList: React.FC = () => {
+  const courses = useSelector((state: { courses: CoursesState }) => state.courses.courses);
   return (
     <ul>
-      <CoursesListItem slug="java" />
-      <CoursesListItem slug="free-code-camp" />
-      <CoursesListItem slug="ten-days-of-javascript" />
+      {courses.map((slug: string) => (
+        <CoursesListItem key={slug} slug={slug} />
+      ))}
     </ul>
   );
 };

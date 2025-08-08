@@ -8,14 +8,21 @@ const initialState: CourseState = {
   courses: ['java', 'free-code-camp', 'ten-days-of-javascript'],
 };
 
-export default function coursesReducer(state = initialState, action: any): CourseState {
+type CoursePayload = { playlistId: string };
+
+export default function coursesReducer(
+  state = initialState,
+  action: { type: string; payload?: CoursePayload }
+): CourseState {
   switch (action.type) {
     case ADD_COURSE: {
+      if (!action.payload) return state;
       const { playlistId } = action.payload;
       if (state.courses.includes(playlistId)) return state;
       return { ...state, courses: [...state.courses, playlistId] };
     }
     case REMOVE_COURSE: {
+      if (!action.payload) return state;
       const { playlistId } = action.payload;
       return { ...state, courses: state.courses.filter(id => id !== playlistId) };
     }

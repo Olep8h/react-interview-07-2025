@@ -1,9 +1,7 @@
 import AddCourseForm from "./components/AddCourseForm/AddCourseForm";
 import CoursesList from "./components/CoursesList/CoursesList";
 
-type Props = {};
-
-const CoursesPage: React.FC<Props> = () => {
+const CoursesPage: React.FC = () => {
   return (
     <div>
       <h1>Online courses tracker</h1>

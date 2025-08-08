@@ -4,9 +4,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addCourse } from '../../coursesActions';
 
-type Props = {};
-
-const AddCourseForm: React.FC<Props> = () => {
+const AddCourseForm: React.FC = () => {
   const [playlistId, setPlaylistId] = useState('');
   const dispatch = useDispatch();
 

@@ -7,26 +7,20 @@ export interface VideoProps {
   id: string;
   title: string;
   description: string;
-  thumbnail: string;
   isCompleted: boolean;
   isOpen: boolean;
   toggleCompleted: () => void;
   toggleOpen: () => void;
-  toggleOpenCallback: (index: number) => void;
-  index: number;
 }
 
 const Video: React.FC<VideoProps> = ({
   id,
   title,
   description,
-  thumbnail,
   isCompleted,
   isOpen,
   toggleCompleted,
   toggleOpen,
-  index,
-  toggleOpenCallback,
 }) => {
   return (
     <div className={styles['video']}>

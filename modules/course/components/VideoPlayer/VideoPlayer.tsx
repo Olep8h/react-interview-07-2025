@@ -3,7 +3,7 @@ import styles from './VideoPlayer.module.scss'
 
 type Props = {
   url: string;
-  onEnded?: () => void;
+  onEnded: () => void;
 };
 
 const VideoPlayer: React.FC<Props> = ({ url, onEnded }) => {

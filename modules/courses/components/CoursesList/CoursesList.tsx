@@ -3,8 +3,12 @@
 import { useSelector } from "react-redux";
 import CoursesListItem from "./CoursesListItem";
 
+interface CoursesState {
+  courses: string[];
+}
+
 const CoursesList: React.FC = () => {
-  const courses = useSelector((state: any) => state.courses.courses);
+  const courses = useSelector((state: { courses: CoursesState }) => state.courses.courses);
   return (
     <ul>
       {courses.map((slug: string) => (

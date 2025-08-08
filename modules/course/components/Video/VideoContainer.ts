@@ -1,4 +1,4 @@
-import Video, { VideoProps } from './Video'
+import Video from './Video'
 import { connect } from 'react-redux'
 import { isCompletedSelector, isOpenSelector } from '../../selectors'
 import { toggleVideoCompleted, toggleVideoOpen } from '../../actions'
@@ -21,7 +21,6 @@ const mapStateToProps = (state: RootState, props: VideoContainerProps) => ({
 const mapDispatchToProps = (dispatch: AppDispatch, props: VideoContainerProps) => ({
   toggleCompleted: () => {
     dispatch(toggleVideoCompleted({ id: props.id }))
-    props.toggleOpenCallback(props.index)
   },
   toggleOpen: () => {
     dispatch(toggleVideoOpen({ id: props.id }))

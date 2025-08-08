@@ -1,10 +1,14 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Container from "@/components/Container";
 import styles from "./Layout.module.scss";
 
-const Layout = ({ children }) => {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <Header />

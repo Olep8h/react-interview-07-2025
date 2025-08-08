@@ -1,34 +1,37 @@
-import Video from './Video'
+import Video, { VideoProps } from './Video'
 import { connect } from 'react-redux'
-import { compose } from 'recompose'
 import { isCompletedSelector, isOpenSelector } from '../../selectors'
 import { toggleVideoCompleted, toggleVideoOpen } from '../../actions'
+import type { RootState, AppDispatch } from '@/modules/course/store';
 
-const withCompleted = connect(
-  (state, { id }) => ({
-    isCompleted: isCompletedSelector(state, id),
-  }),
-  (dispatch, { id, toggleOpenCallback, index }) => ({
-    toggleCompleted: () => {
-      dispatch(toggleVideoCompleted({ id }))
-      toggleOpenCallback(index)
-    },
-  }),
-)
+interface VideoContainerProps {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  index: number;
+  toggleOpenCallback: (index: number) => void;
+}
 
-const withOpen = connect(
-  (state, { id }) => ({
-    isOpen: isOpenSelector(state, id),
-  }),
-  (dispatch, { id, toggleOpenCallback, index }) => ({
-    toggleOpen: () => {
-      dispatch(toggleVideoOpen({ id }))
-      toggleOpenCallback(index)
-    },
-  }),
-)
+const mapStateToProps = (state: RootState, props: VideoContainerProps) => ({
+  isCompleted: isCompletedSelector(state, props.id),
+  isOpen: isOpenSelector(state, props.id),
+});
 
-export default compose(
-  withCompleted,
-  withOpen,
-)(Video)
+const mapDispatchToProps = (dispatch: AppDispatch, props: VideoContainerProps) => ({
+  toggleCompleted: () => {
+    dispatch(toggleVideoCompleted({ id: props.id }))
+    props.toggleOpenCallback(props.index)
+  },
+  toggleOpen: () => {
+    dispatch(toggleVideoOpen({ id: props.id }))
+    props.toggleOpenCallback(props.index)
+  },
+});
+
+export default connect<
+  ReturnType<typeof mapStateToProps>,
+  ReturnType<typeof mapDispatchToProps>,
+  VideoContainerProps,
+  RootState
+>(mapStateToProps, mapDispatchToProps)(Video);

@@ -31,7 +31,12 @@ const Video = ({
             <h2 className={styles['video__title']}>{title}</h2>
             {isOpen && (
               <Collapse open={isOpen}>
-                <VideoPlayer url={`https://www.youtube.com/watch?v=${id}`} />
+                <VideoPlayer
+                  url={`https://www.youtube.com/watch?v=${id}`}
+                  onEnded={() => {
+                    if (!isCompleted) toggleCompleted();
+                  }}
+                />
                 <p className={styles['video__description']}>{description}</p>
               </Collapse>
             )}

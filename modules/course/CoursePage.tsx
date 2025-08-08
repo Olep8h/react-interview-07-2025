@@ -20,7 +20,7 @@ class CoursePage extends React.PureComponent {
   }
 
   render() {
-    const { title, loading, error, playlistVideos } = this.props
+    const { title, loading, error, playlistVideos, missingPlaylistId } = this.props
     const Row = ({ index, style, toggleOpenCallback }) => {
       return (
         <div style={style}>
@@ -35,6 +35,16 @@ class CoursePage extends React.PureComponent {
           />
         </div>
       )
+    }
+
+    if (missingPlaylistId) {
+      return (
+        <article>
+          <Container>
+            <h1>You will see this Course in future</h1>
+          </Container>
+        </article>
+      );
     }
 
     return (

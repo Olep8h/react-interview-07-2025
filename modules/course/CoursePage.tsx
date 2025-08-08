@@ -32,21 +32,33 @@ export interface CoursePageProps {
 class CoursePage extends React.PureComponent<CoursePageProps> {
   listRef = React.createRef<VariableSizeListType>()
 
-  getItemSize = (index: number) => {
-    const { playlistVideos } = this.props
-    return playlistVideos[index].open ? 540 : 140
+  componentDidUpdate(prev: CoursePageProps) {
+    const prevIds = prev.playlistVideos.map(v => v.id).join('|');
+    const currIds = this.props.playlistVideos.map(v => v.id).join('|');
+    if (prevIds !== currIds || prev.playlistVideos.length !== this.props.playlistVideos.length) {
+      this.listRef.current?.resetAfterIndex(0, true);
+    }
+  }
+
+  private static readonly ROW_HEIGHT_COLLAPSED = 140;
+  private static readonly ROW_HEIGHT_EXPANDED = 540;
+
+  getRowHeight = (index: number) => {
+    const item = this.props.playlistVideos[index];
+    return item && item.open
+        ? CoursePage.ROW_HEIGHT_EXPANDED
+        : CoursePage.ROW_HEIGHT_COLLAPSED;
   }
 
   toggleOpenCallback = (index: number) => {
-    this.listRef.current?.resetAfterIndex(index)
+    this.listRef.current?.resetAfterIndex(index, true);
   }
 
   Row = ({ index, style, data }: ListChildComponentProps<PlaylistVideo[]>) => {
-    const item = data[index]
+    const item = data[index];
     return (
         <div style={style}>
           <Video
-              key={item.id}
               index={index}
               id={item.id}
               title={item.title}
@@ -55,11 +67,11 @@ class CoursePage extends React.PureComponent<CoursePageProps> {
               toggleOpenCallback={this.toggleOpenCallback}
           />
         </div>
-    )
+    );
   }
 
   render() {
-    const { title, loading, error, playlistVideos, missingPlaylistId } = this.props
+    const { title, loading, error, playlistVideos, missingPlaylistId } = this.props;
 
     if (missingPlaylistId) {
       return (
@@ -68,7 +80,7 @@ class CoursePage extends React.PureComponent<CoursePageProps> {
               <h1>You will see this Course in future</h1>
             </Container>
           </article>
-      )
+      );
     }
 
     return (
@@ -86,8 +98,9 @@ class CoursePage extends React.PureComponent<CoursePageProps> {
                             height={height}
                             width={width}
                             itemCount={playlistVideos.length}
-                            itemSize={this.getItemSize}
+                            itemSize={this.getRowHeight}
                             itemData={playlistVideos}
+                            itemKey={(index, data) => data[index].id}
                         >
                           {this.Row}
                         </List>
@@ -96,11 +109,12 @@ class CoursePage extends React.PureComponent<CoursePageProps> {
                 </div>
             )}
 
+            {!loading && playlistVideos.length === 0 && <p>No videos to show.</p>}
             {loading && <Spinner />}
-            {error && 'Error loading playlist'}
+            {error && <p role="alert">Error loading playlist</p>}
           </Container>
         </article>
-    )
+    );
   }
 }
 

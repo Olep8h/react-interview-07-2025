@@ -4,6 +4,7 @@ import createSagaMiddleware from "redux-saga";
 import { all } from "redux-saga/effects";
 
 import saga from './saga'
+import coursesReducer from '../courses/coursesReducer';
 
 function* rootSaga() {
   yield all([saga()]);
@@ -17,6 +18,7 @@ export const makeStore = () => {
       getDefaultMiddleware().concat(sagaMiddleware),
     reducer: {
       coursePage: playlistsReducer,
+      courses: coursesReducer,
     },
   })
   sagaMiddleware.run(rootSaga);

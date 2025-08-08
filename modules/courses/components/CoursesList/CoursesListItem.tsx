@@ -1,3 +1,6 @@
+import { useDispatch } from "react-redux";
+
+import { removeCourse } from "../../coursesActions";
 import styles from "./CoursesListItem.module.scss";
 
 type Props = {
@@ -5,10 +8,11 @@ type Props = {
 };
 
 const CoursesListItem: React.FC<Props> = ({ slug }) => {
+  const dispatch = useDispatch();
   return (
     <li className={styles["courses-list-item"]}>
       {slug}
-      <button>remove course</button>
+      <button onClick={() => dispatch(removeCourse(slug))}>remove course</button>
     </li>
   );
 };

@@ -30,7 +30,6 @@ export interface CoursePageProps {
 }
 
 class CoursePage extends React.PureComponent<CoursePageProps> {
-  // важно: ref на ИНСТАНС списка
   listRef = React.createRef<VariableSizeListType>()
 
   getItemSize = (index: number) => {
